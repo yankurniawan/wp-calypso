@@ -300,4 +300,20 @@ export default {
 		stepName: 'rewind-form-creds',
 		providesDependencies: [ 'rewindconfig' ],
 	},
+
+	'business-information': {
+		stepName: 'business-information',
+		providesDependencies: [ 'businessInformation' ],
+	},
+
+	'business-add-ons': {
+		stepName: 'business-add-ons',
+		providesDependencies: [ 'businessAddOns' ],
+	},
+
+	style: {
+		stepName: 'style',
+		dependencies: [ 'themeSlugWithRepo' ],
+		providesDependencies: [ 'themeStyle' ],
+	},
 };
