@@ -20,7 +20,7 @@ import ConfirmationDialog from './dialog';
 import FormSectionHeading from 'components/forms/form-section-heading';
 import TrackComponentView from 'lib/analytics/track-component-view';
 import {
-	requestSiteRename,
+	requestSiteAddressChange,
 	requestSiteAddressAvailability,
 	clearValidationError,
 } from 'state/site-rename/actions';
@@ -63,7 +63,7 @@ export class SiteAddressChanger extends Component {
 	onConfirm = () => {
 		const { selectedSiteId } = this.props;
 
-		this.props.requestSiteRename( selectedSiteId, this.state.domainFieldValue );
+		this.props.requestSiteAddressChange( selectedSiteId, this.state.domainFieldValue);
 	};
 
 	setValidationState = () => {
@@ -303,7 +303,7 @@ export default flow(
 			};
 		},
 		{
-			requestSiteRename,
+			requestSiteAddressChange,
 			requestSiteAddressAvailability,
 			clearValidationError,
 		}
