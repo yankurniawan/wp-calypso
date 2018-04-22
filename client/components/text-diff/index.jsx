@@ -16,7 +16,7 @@ const addLinesToOperations = operations => {
 };
 
 const renderOperation = ( operation, operationIndex, splitLines ) => {
-	const { orig, final, value, op } = operation;
+	const { orig, final, value, op, ref } = operation;
 	const content = orig || final || value;
 
 	const classnames = classNames( {
@@ -24,6 +24,14 @@ const renderOperation = ( operation, operationIndex, splitLines ) => {
 		'text-diff__context': op === 'copy',
 		'text-diff__deletions': op === 'del',
 	} );
+
+	if ( ref ) {
+		return (
+			<span className={ classnames } key={ operationIndex } ref={ ref }>
+				{ splitLines ? addLinesToOperations( content ) : content }
+			</span>
+		);
+	}
 
 	return (
 		<span className={ classnames } key={ operationIndex }>
