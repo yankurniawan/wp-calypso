@@ -40,7 +40,6 @@ import {
 	JETPACK_CONNECT_SSO_VALIDATION_REQUEST,
 	JETPACK_CONNECT_SSO_VALIDATION_SUCCESS,
 	JETPACK_CONNECT_USER_ALREADY_CONNECTED,
-	SITE_RECEIVE,
 	SITE_REQUEST,
 	SITE_REQUEST_FAILURE,
 	SITE_REQUEST_SUCCESS,
@@ -379,10 +378,7 @@ export function authorize( queryObject ) {
 						recordTracksEvent( 'calypso_jpc_auth_sitesrefresh', {
 							site: client_id,
 						} ),
-						{
-							type: SITE_RECEIVE,
-							site: data,
-						}
+						receiveSite( data )
 					)
 				);
 				dispatch(
