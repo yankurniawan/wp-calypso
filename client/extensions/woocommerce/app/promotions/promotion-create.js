@@ -139,11 +139,12 @@ class PromotionCreate extends React.Component {
 			);
 		};
 
-		const successAction = dispatch => {
+		const successAction = ( dispatch, state, { receivedData } ) => {
 			this.props.clearPromotionEdits( site.ID );
-
 			dispatch( getSuccessNotice( promotion ) );
-			page.redirect( getLink( '/store/promotions/:site', site ) );
+			const promotionId =
+				'product_sale' === promotion.type ? `p${ receivedData.id }` : `c${ receivedData.id }`;
+			page.redirect( getLink( `/store/promotion/:site/${ promotionId }`, site ) );
 		};
 
 		const failureAction = error => {

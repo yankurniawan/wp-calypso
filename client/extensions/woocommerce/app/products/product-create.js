@@ -153,7 +153,7 @@ class ProductCreate extends React.Component {
 
 		const successAction = products => {
 			const newProduct = head( products );
-			page.redirect( getLink( '/store/products/:site', site ) );
+			page.redirect( getLink( `/store/product/:site/${ newProduct.id }`, site ) );
 			return getSuccessNotice( newProduct );
 		};
 

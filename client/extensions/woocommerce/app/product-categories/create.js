@@ -93,8 +93,8 @@ class ProductCategoryCreate extends React.Component {
 		const { site, category, translate } = this.props;
 		this.setState( { busy: true } );
 
-		const successAction = () => {
-			page.redirect( getLink( '/store/products/categories/:site', site ) );
+		const successAction = ( dispatch, state, { receivedData } ) => {
+			page.redirect( getLink( `/store/products/category/:site/${ receivedData.id }`, site ) );
 			return successNotice( translate( 'Category successfully created.' ), {
 				displayOnNextPage: true,
 				duration: 8000,

@@ -11,6 +11,7 @@ import debugFactory from 'debug';
  * Internal dependencies
  */
 import { dispatchRequest } from 'state/data-layer/wpcom-http/utils';
+import { dispatchWithProps } from 'woocommerce/state/helpers';
 import request from 'woocommerce/state/sites/http-request';
 import {
 	WOOCOMMERCE_COUPON_CREATE,
@@ -66,10 +67,12 @@ export function couponCreate( { dispatch }, action ) {
 	dispatch( request( siteId, action ).post( path, coupon ) );
 }
 
-export function couponCreateSuccess( { dispatch }, action ) {
+export function couponCreateSuccess( { dispatch, getState }, action, { data: receivedData } ) {
 	dispatch( couponUpdated( action.siteId, action.coupon ) );
 	if ( action.successAction ) {
-		dispatch( action.successAction );
+		// Pass back receivedData to the successAction like product sales do
+		const props = { sentData: action.coupon, receivedData };
+		dispatchWithProps( dispatch, getState, action.successAction, props );
 	}
 }
 
