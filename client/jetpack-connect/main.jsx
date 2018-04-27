@@ -69,12 +69,12 @@ export class JetpackConnectMain extends Component {
 				currentUrl: cleanUrl( this.props.url ),
 				shownUrl: this.props.url,
 				waitingForSites: false,
-			}
+		  }
 		: {
 				currentUrl: '',
 				shownUrl: '',
 				waitingForSites: false,
-			};
+		  };
 	/* eslint-enable indent */
 
 	componentWillMount() {

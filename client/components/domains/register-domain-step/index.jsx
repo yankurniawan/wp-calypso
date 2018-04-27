@@ -382,7 +382,10 @@ class RegisterDomainStep extends React.Component {
 
 	renderTldButtons() {
 		const isKrackenUi = config.isEnabled( 'domains/kracken-ui/filters' );
-		const { availableTlds, lastFilters: { tlds: selectedTlds } } = this.state;
+		const {
+			availableTlds,
+			lastFilters: { tlds: selectedTlds },
+		} = this.state;
 		return (
 			isKrackenUi && (
 				<CompactCard className="register-domain-step__tld-buttons">

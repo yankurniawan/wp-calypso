@@ -111,7 +111,9 @@ const streamApis = {
  * @returns {object} http action for data-layer to dispatch
  */
 export function requestPage( action ) {
-	const { payload: { streamKey, streamType } } = action;
+	const {
+		payload: { streamKey, streamType },
+	} = action;
 	const api = streamApis[ streamType ];
 
 	if ( ! api ) {

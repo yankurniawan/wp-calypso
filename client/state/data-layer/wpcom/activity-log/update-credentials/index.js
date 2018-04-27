@@ -48,7 +48,9 @@ export const primeHappychat = ( { dispatch, getState } ) => {
 
 export const request = ( { dispatch }, action ) => {
 	const notice = successNotice( i18n.translate( 'Testing connection…' ), { duration: 30000 } );
-	const { notice: { noticeId } } = notice;
+	const {
+		notice: { noticeId },
+	} = notice;
 
 	dispatch( notice );
 

@@ -29,7 +29,7 @@ class DomainTransferSuggestion extends React.Component {
 					buttonProps: { borderless: true },
 					extraClasses: 'is-visible domain-transfer-suggestion is-kracken-ui',
 					showChevron: true,
-				}
+			  }
 			: {};
 
 		return (

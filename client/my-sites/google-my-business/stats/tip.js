@@ -32,13 +32,7 @@ class GoogleMyBusinessStatsTip extends Component {
 	};
 
 	render() {
-		const {
-			buttonHref,
-			buttonText,
-			illustration,
-			text,
-			translate,
-		} = this.props;
+		const { buttonHref, buttonText, illustration, text, translate } = this.props;
 
 		return (
 			<Card className="gmb-stats__tip">

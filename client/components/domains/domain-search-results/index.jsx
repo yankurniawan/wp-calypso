@@ -111,11 +111,11 @@ class DomainSearchResults extends React.Component {
 				? translate( '{{strong}}.%(tld)s{{/strong}} domains are not offered on WordPress.com.', {
 						args: { tld: getTld( domain ) },
 						components: { strong: <strong /> },
-					} )
+				  } )
 				: translate( '{{strong}}%(domain)s{{/strong}} is taken.', {
 						args: { domain },
 						components: { strong: <strong /> },
-					} );
+				  } );
 
 			if ( this.props.offerUnavailableOption ) {
 				if ( this.props.siteDesignType !== DESIGN_TYPE_STORE && lastDomainIsTransferrable ) {

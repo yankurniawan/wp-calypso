@@ -327,7 +327,7 @@ class SiteIconSetting extends Component {
 											onDone: this.setSiteIcon,
 											onCancel: this.cancelEditingSiteIcon,
 										},
-									}
+								  }
 								: {} ) }
 							visible={ isModalVisible }
 							labels={ {

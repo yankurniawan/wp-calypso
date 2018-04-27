@@ -327,10 +327,10 @@ export class SeoForm extends React.Component {
 								isSitePrivate
 									? translate(
 											"SEO settings aren't recognized by search engines while your site is Private."
-										)
+									  )
 									: translate(
 											"SEO settings aren't recognized by search engines while your site is Hidden."
-										)
+									  )
 							}
 						>
 							<NoticeAction href={ generalTabUrl }>

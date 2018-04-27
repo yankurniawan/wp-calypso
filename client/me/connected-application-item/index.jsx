@@ -39,14 +39,18 @@ class ConnectedApplicationItem extends React.Component {
 			return;
 		}
 
-		const { connection: { title, ID } } = this.props;
+		const {
+			connection: { title, ID },
+		} = this.props;
 		event.stopPropagation();
 		this.recordClickEvent( 'Disconnect Connected Application Link', title );
 		this.props.revoke( ID );
 	};
 
 	renderAccessScopeBadge() {
-		const { connection: { scope, site } } = this.props;
+		const {
+			connection: { scope, site },
+		} = this.props;
 		var meta = '';
 
 		if ( ! this.props.connection ) {
@@ -67,7 +71,9 @@ class ConnectedApplicationItem extends React.Component {
 	}
 
 	renderScopeMessage() {
-		const { connection: { scope, site } } = this.props;
+		const {
+			connection: { scope, site },
+		} = this.props;
 		var message;
 		if ( ! this.props.connection ) {
 			return;
@@ -120,7 +126,9 @@ class ConnectedApplicationItem extends React.Component {
 	}
 
 	renderDetail() {
-		const { connection: { URL, authorized, permissions } } = this.props;
+		const {
+			connection: { URL, authorized, permissions },
+		} = this.props;
 		if ( this.props.isPlaceholder ) {
 			return;
 		}

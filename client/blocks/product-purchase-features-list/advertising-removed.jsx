@@ -24,7 +24,7 @@ export default localize( ( { isBusinessPlan, translate } ) => {
 						: translate(
 								'All WordPress.com advertising has been removed from your site. ' +
 									'Upgrade to remove the WordPress.com footer credit.'
-							)
+						  )
 				}
 			/>
 		</div>

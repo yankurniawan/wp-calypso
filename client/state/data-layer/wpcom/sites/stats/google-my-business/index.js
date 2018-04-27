@@ -50,7 +50,5 @@ export const receiveStats = ( { dispatch }, action, data ) => {
 };
 
 export default {
-	[ GOOGLE_MY_BUSINESS_STATS_REQUEST ]: [
-		dispatchRequest( fetchStats, receiveStats, noop ),
-	],
+	[ GOOGLE_MY_BUSINESS_STATS_REQUEST ]: [ dispatchRequest( fetchStats, receiveStats, noop ) ],
 };

@@ -16,7 +16,7 @@
 
 	// Use increased specificty to override default z-index for popovers
 	&.popover {
-		z-index: z-index('.popover', '.search-filters__popover');
+		z-index: z-index( '.popover', '.search-filters__popover' );
 	}
 
 	.popover__inner {

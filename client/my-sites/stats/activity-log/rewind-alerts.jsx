@@ -15,7 +15,10 @@ import { getRewindAlerts } from 'state/selectors';
 
 export class RewindAlerts extends Component {
 	render() {
-		const { alerts: { threats }, translate } = this.props;
+		const {
+			alerts: { threats },
+			translate,
+		} = this.props;
 
 		if ( ! threats.length ) {
 			return null;

@@ -99,7 +99,7 @@ class SuccessBanner extends PureComponent {
 						</Button>
 					),
 					trackHappyChat: trackHappyChatBackup,
-				}
+			  }
 			: {
 					title: translate( 'Your site has been successfully restored' ),
 					icon: 'history',
@@ -118,7 +118,7 @@ class SuccessBanner extends PureComponent {
 						</Button>
 					),
 					trackHappyChat: trackHappyChatRestore,
-				};
+			  };
 		return (
 			<ActivityLogBanner
 				isDismissable

@@ -167,7 +167,7 @@ class DomainRegistrationSuggestion extends React.Component {
 				shouldBundleDomainWithPlan( domainsWithPlansOnly, selectedSite, cart, suggestion )
 					? translate( 'Upgrade', {
 							context: 'Domain mapping suggestion button with plan upgrade',
-						} )
+					  } )
 					: translate( 'Select', { context: 'Domain mapping suggestion button' } );
 		}
 		return {
@@ -182,7 +182,10 @@ class DomainRegistrationSuggestion extends React.Component {
 	}
 
 	renderDomain() {
-		const { suggestion: { domain_name: domain }, isFeatured } = this.props;
+		const {
+			suggestion: { domain_name: domain },
+			isFeatured,
+		} = this.props;
 		return (
 			<h3 className="domain-registration-suggestion__title">
 				{ domain }
@@ -192,7 +195,11 @@ class DomainRegistrationSuggestion extends React.Component {
 	}
 
 	renderProgressBar() {
-		const { suggestion: { isRecommended, isBestAlternative }, translate, isFeatured } = this.props;
+		const {
+			suggestion: { isRecommended, isBestAlternative },
+			translate,
+			isFeatured,
+		} = this.props;
 
 		if ( ! isFeatured ) {
 			return null;
@@ -227,7 +234,10 @@ class DomainRegistrationSuggestion extends React.Component {
 	}
 
 	renderMatchReason() {
-		const { suggestion: { domain_name: domain }, isFeatured } = this.props;
+		const {
+			suggestion: { domain_name: domain },
+			isFeatured,
+		} = this.props;
 
 		if ( ! isFeatured || ! Array.isArray( this.props.suggestion.match_reasons ) ) {
 			return null;

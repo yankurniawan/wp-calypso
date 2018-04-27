@@ -60,7 +60,8 @@ export default function isGoogleMyBusinessStatsNudgeVisible( state, siteId ) {
 	}
 
 	const createdAt = getSiteOption( state, siteId, 'created_at' );
-	const isWeekPassedSinceSiteCreation = Date.parse( createdAt ) + WEEK_IN_SECONDS * 1000 < Date.now();
+	const isWeekPassedSinceSiteCreation =
+		Date.parse( createdAt ) + WEEK_IN_SECONDS * 1000 < Date.now();
 
 	return (
 		isWeekPassedSinceSiteCreation &&

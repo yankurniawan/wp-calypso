@@ -138,7 +138,7 @@ const ConnectedApplications = createReactClass( {
 							revoke={ this.revokeConnection }
 						/>
 					);
-				}, this )
+			  }, this )
 			: this.renderPlaceholders();
 	},
 

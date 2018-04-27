@@ -101,7 +101,7 @@ export class PaymentBox extends PureComponent {
 					args: {
 						paymentMethod: paymentMethodName( this.props.currentPaymentMethod ),
 					},
-				} )
+			  } )
 			: translate( 'Loading…' );
 
 		const paymentMethods = this.getPaymentMethods();

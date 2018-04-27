@@ -88,11 +88,13 @@ export class EditorPublishButton extends Component {
 	}
 
 	getButtonLabel() {
-		switch ( getPublishButtonStatus(
-			this.props.post,
-			this.props.savedPost,
-			this.props.canUserPublishPosts
-		) ) {
+		switch (
+			getPublishButtonStatus(
+				this.props.post,
+				this.props.savedPost,
+				this.props.canUserPublishPosts
+			)
+		) {
 			case 'update':
 				return this.props.translate( 'Update' );
 			case 'schedule':

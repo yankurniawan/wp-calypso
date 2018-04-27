@@ -46,7 +46,7 @@ export class EditorAuthor extends Component {
 					siteId: site.ID,
 					onSelect: this.onSelect,
 					popoverPosition,
-				}
+			  }
 			: {};
 
 		return (

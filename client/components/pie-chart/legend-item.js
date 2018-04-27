@@ -35,9 +35,7 @@ class LegendItem extends Component {
 						/>
 					</svg>
 
-					<div className={ 'pie-chart__legend-item-title-name' }>
-						{ name }
-					</div>
+					<div className={ 'pie-chart__legend-item-title-name' }>{ name }</div>
 				</div>
 
 				<div className={ 'pie-chart__legend-item-detail' }>
@@ -46,9 +44,7 @@ class LegendItem extends Component {
 					</div>
 
 					{ description && (
-						<div className={ 'pie-chart__legend-item-detail-description' }>
-							{ description }
-						</div>
+						<div className={ 'pie-chart__legend-item-detail-description' }>{ description }</div>
 					) }
 				</div>
 			</div>
