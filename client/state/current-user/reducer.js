@@ -9,7 +9,7 @@ import { get, isEqual, reduce } from 'lodash';
 /**
  * Internal dependencies
  */
-import {
+import 	{
 	CURRENT_USER_ID_SET,
 	CURRENT_USER_FLAGS_RECEIVE,
 	SITE_RECEIVE,

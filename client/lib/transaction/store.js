@@ -125,6 +125,8 @@ TransactionStore.dispatchToken = Dispatcher.register( function( payload ) {
 			}
 			break;
 	}
+	// eslint-disable-next-line
+	console.log( '_transaction', _transaction );
 } );
 
 export default TransactionStore;
