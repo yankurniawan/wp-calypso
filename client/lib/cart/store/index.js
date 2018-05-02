@@ -21,6 +21,7 @@ import {
 	getProductsList,
 	shouldRequestProductsListFromServer,
 } from 'state/products-list/selectors';
+import { updateDomainDetailsAfterCartUpdate } from 'client/state/transaction/actions';
 
 const wpcom = wp.undocumented();
 
@@ -79,6 +80,7 @@ function update( changeFunction ) {
 	const productsList = getProductsList( reduxState );
 	const shouldRequest = ! shouldRequestProductsListFromServer( reduxState );
 
+	//TODO could we dispatch `CART_ITEM_REMOVE` action here for client/state/transaction/reducer.js?
 	if ( shouldRequest ) {
 		reduxDispatch( requestProductsList() );
 	}
@@ -144,6 +146,9 @@ CartStore.dispatchToken = Dispatcher.register( payload => {
 					action.domainsWithPlansOnly
 				)
 			);
+			if ( ! cartItems.hasDomainRegistration( CartStore.get() ) ) {
+				updateDomainDetailsAfterCartUpdate();
+			}
 			break;
 	}
 } );

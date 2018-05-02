@@ -4,17 +4,23 @@
  * External dependencies
  */
 
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 /**
  * Internal dependencies
  */
 
 import { combineReducers, createReducer } from 'state/utils';
-import { errorsSchema, stepSchema, paymentSchema, newCardFormSchema, newCardRawSchema } from './schema';
-import { domainWhoisSchema } from 'state/domains/management/schema';
-
 import {
+	errorsSchema,
+	stepSchema,
+	paymentSchema,
+	newCardFormSchema,
+	newCardRawSchema,
+} from './schema';
+import { domainWhoisSchema } from 'state/domains/management/schema';
+import {
+	TRANSACTION_CART_ITEM_REMOVE,
 	TRANSACTION_DOMAIN_DETAILS_SET,
 	TRANSACTION_PAYMENT_SET,
 	TRANSACTION_NEW_CREDIT_CARD_DETAILS_SET,
@@ -23,17 +29,18 @@ import {
 } from 'state/action-types';
 import { BEFORE_SUBMIT } from 'lib/store-transactions/step-types';
 
-/*
-
-TODO: Handle: `case UpgradesActionTypes.CART_ITEM_REMOVE:` in client/lib/transaction/store.js
-Will need to reduxify CartStore as well?
-*/
-
 export const domainDetails = createReducer(
 	null,
 	{
 		[ TRANSACTION_DOMAIN_DETAILS_SET ]: ( state, action ) => action.domainDetails,
 		[ TRANSACTION_RESET ]: () => null,
+		//TODO: Probably have to refactor after defluxing of the cart store in client/lib/transaction/store.js
+		[ TRANSACTION_CART_ITEM_REMOVE ]: state => {
+			// see: client/lib/store-transactions/index.js
+			if ( ! isEmpty( state ) ) {
+				return null;
+			}
+		},
 	},
 	domainWhoisSchema
 );
@@ -80,7 +87,8 @@ export const payment = createReducer(
 export const newCardFormFields = createReducer(
 	{},
 	{
-		[ TRANSACTION_NEW_CREDIT_CARD_DETAILS_SET ]: ( state, action ) => Object.assign( {}, state, action.maskedDetails ),
+		[ TRANSACTION_NEW_CREDIT_CARD_DETAILS_SET ]: ( state, action ) =>
+			Object.assign( {}, state, action.maskedDetails ),
 		[ TRANSACTION_RESET ]: () => {},
 	},
 	newCardFormSchema
@@ -89,7 +97,8 @@ export const newCardFormFields = createReducer(
 export const newCardRawDetails = createReducer(
 	{},
 	{
-		[ TRANSACTION_NEW_CREDIT_CARD_DETAILS_SET ]: ( state, action ) => Object.assign( {}, state, action.rawDetails ),
+		[ TRANSACTION_NEW_CREDIT_CARD_DETAILS_SET ]: ( state, action ) =>
+			Object.assign( {}, state, action.rawDetails ),
 		[ TRANSACTION_RESET ]: () => {},
 	},
 	newCardRawSchema

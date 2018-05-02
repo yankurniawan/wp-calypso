@@ -10,6 +10,7 @@ import { defer } from 'lodash';
 import { submit } from 'lib/store-transactions';
 
 import {
+	TRANSACTION_CART_ITEM_REMOVE,
 	TRANSACTION_DOMAIN_DETAILS_SET,
 	TRANSACTION_PAYMENT_SET,
 	TRANSACTION_NEW_CREDIT_CARD_DETAILS_SET,
@@ -21,6 +22,12 @@ export const setDomainDetails = domainDetails => ( {
 	type: TRANSACTION_DOMAIN_DETAILS_SET,
 	domainDetails,
 } );
+
+export const updateDomainDetailsAfterCartUpdate = () => {
+	return {
+		type: TRANSACTION_CART_ITEM_REMOVE,
+	};
+};
 
 export const setPayment = payment => ( {
 	type: TRANSACTION_PAYMENT_SET,
