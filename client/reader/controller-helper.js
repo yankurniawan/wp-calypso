@@ -43,14 +43,6 @@ export function trackScrollPage( path, title, category, readerView, pageNum ) {
 	} );
 }
 
-export function trackUpdatesLoaded( key ) {
-	analytics.mc.bumpStat( 'reader_views', key + '_load_new' );
-	analytics.ga.recordEvent( 'Reader', 'Clicked Load New Posts', key );
-	recordTrack( 'calypso_reader_load_new_posts', {
-		section: key,
-	} );
-}
-
 export function setPageTitle( context, title ) {
 	// @todo Auto-converted from the Flux setTitle action. Please use <DocumentHead> instead.
 	context.store.dispatch( setTitle( i18n.translate( '%s ‹ Reader', { args: title } ) ) );

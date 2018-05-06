@@ -27,7 +27,13 @@ import { getStreamType } from 'reader/utils';
  * @param  {object} query    The query for posts. Parameters vary by stream type.
  * @return {object}          The action object
  */
-export function requestPage( { streamKey, pageHandle, isPoll = false, gap = null } ) {
+export function requestPage( {
+	streamKey,
+	pageHandle,
+	isPoll = false,
+	gap = null,
+	byScroll = false,
+} ) {
 	const streamType = getStreamType( streamKey );
 
 	return {
@@ -38,6 +44,7 @@ export function requestPage( { streamKey, pageHandle, isPoll = false, gap = null
 			streamType,
 			isPoll,
 			gap,
+			byScroll,
 		},
 	};
 }

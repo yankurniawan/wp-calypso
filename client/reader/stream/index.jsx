@@ -48,6 +48,13 @@ import { reduxGetState } from 'lib/redux-bridge';
 import { getPostByKey } from 'state/reader/posts/selectors';
 import { viewStream } from 'state/reader/watermarks/actions';
 import Interval, { EVERY_MINUTE } from 'lib/interval';
+import {
+	bumpStat,
+	recordGoogleEvent,
+	recordTracksEvent,
+	composeAnalytics,
+} from 'state/analytics/actions';
+import { getAnalyticsMetaForStream } from 'state/data-layer/wpcom/read/streams/index';
 
 const GUESSED_POST_HEIGHT = 600;
 const HEADER_OFFSET_TOP = 46;
@@ -296,22 +303,18 @@ class ReaderStream extends React.Component {
 
 	fetchNextPage = options => {
 		const { streamKey, stream, startDate } = this.props;
-		if ( options.triggeredByScroll ) {
-			this.props.trackScrollPage( this.page );
-			this.page++;
-		}
 		const pageHandle = stream.pageHandle || { before: startDate };
-		this.props.requestPage( { streamKey, pageHandle } );
+		this.props.requestPage( {
+			streamKey,
+			pageHandle,
+			byScroll: options && options.triggeredByScroll,
+		} );
 	};
 
 	showUpdates = () => {
 		const { streamKey } = this.props;
-		this.props.onUpdatesShown();
 		this.props.showUpdates( { streamKey } );
-		// @todo: do we need to shuffle?
-		// if ( this.props.recommendationsStore ) {
-		// 	shufflePosts( this.props.recommendationsStore.id );
-		// }
+		this.props.trackUpdatesShown( streamKey );
 		if ( this._list ) {
 			this._list.scrollToTop();
 		}
@@ -460,5 +463,15 @@ export default connect(
 		selectPrevItem,
 		showUpdates,
 		viewStream,
+		trackUpdatesShown,
 	}
 )( localize( ReaderStream ) );
+
+export function trackUpdatesShown( streamKey ) {
+	const mcKey = getAnalyticsMetaForStream( streamKey ).mcKey;
+	return composeAnalytics(
+		bumpStat( 'reader_views', mcKey + '_load_new' ),
+		recordGoogleEvent( 'Reader', 'Clicked Load New Posts', mcKey ),
+		recordTracksEvent( 'calypso_reader_load_new_posts', { section: mcKey } )
+	);
+}

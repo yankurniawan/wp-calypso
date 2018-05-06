@@ -18,7 +18,13 @@ import { receivePage, receiveUpdates } from 'state/reader/streams/actions';
 import { errorNotice } from 'state/notices/actions';
 import { receivePosts } from 'state/reader/posts/actions';
 import { keyForPost } from 'reader/post-key';
-import { recordTracksEvent } from 'state/analytics/actions';
+import {
+	recordTracksEvent,
+	recordGoogleEvent,
+	recordPageView,
+	bumpStat,
+} from 'state/analytics/actions';
+import { getStreamType } from 'reader/utils';
 
 /**
  * Pull the suffix off of a stream key
@@ -42,21 +48,47 @@ function streamKeySuffix( streamKey ) {
 	return streamKey.substring( streamKey.indexOf( ':' ) + 1 );
 }
 
+/*
+ * analyticsAlgoMap stores data needed to make analytics requests per fetch.
+ * shape is: {
+ *    [ streamKey ]: { page, algorithm },
+ * }
+ */
 const analyticsAlgoMap = new Map();
 function analyticsForStream( { streamKey, algorithm, posts } ) {
 	if ( ! streamKey || ! algorithm || ! posts ) {
 		return [];
 	}
 
-	analyticsAlgoMap.set( streamKey, algorithm );
+	const page = get( analyticsAlgoMap.get( streamKey ), 'page', 0 );
+	analyticsAlgoMap.set( streamKey, { algorithm, page: page + 1 } );
 
 	const eventName = 'calypso_traintracks_render';
-	const analyticsActions = posts
+	const railcarAnalytics = posts
 		.filter( post => !! post.railcar )
 		.map( post => recordTracksEvent( eventName, post.railcar ) );
-	return analyticsActions;
+	// const pageViewAnalytics = trackScrollPage(...)
+	const pageViewAnalytics = [];
+	return [ ...railcarAnalytics, ...pageViewAnalytics ];
 }
 const getAlgorithmForStream = streamKey => analyticsAlgoMap.get( streamKey );
+
+export function trackScrollPage( { path, title, readerView, pageNum } ) {
+	const category = 'reader';
+	return [
+		recordGoogleEvent( category, 'Loaded Next Page', 'page', pageNum ),
+		recordTracksEvent( 'calypso_reader_infinite_scroll_performed', {
+			path: path,
+			page: pageNum,
+			section: readerView,
+		} ),
+		recordPageView( path, title ),
+		bumpStat( {
+			newdash_pageviews: 'scroll',
+			reader_views: readerView + '_scroll',
+		} ),
+	];
+}
 
 export const PER_FETCH = 6;
 const PER_POLL = 40;
@@ -86,10 +118,16 @@ function getQueryStringForPoll( extraFields = [], extraQueryParams = {} ) {
 }
 const seed = random( 0, 1000 );
 
+// basePath,
+// fullAnalyticsPageTitle,
+// analyticsPageTitle,
+// mcKey
+
 const streamApis = {
 	following: {
 		path: () => '/read/following',
 		dateProperty: 'date',
+		analytics: () => ( { path: '/', mcKey: 'following', readerView: 'Reader > Following' } ),
 	},
 	search: {
 		path: () => '/read/search',
@@ -102,10 +140,20 @@ const streamApis = {
 	feed: {
 		path: ( { streamKey } ) => `/read/feed/${ streamKeySuffix( streamKey ) }/posts`,
 		dateProperty: 'date',
+		analytics: ( { streamKey } ) => ( {
+			path: '/read/feeds/:feed_id',
+			mcKey: 'blog',
+			readerView: 'Reader > Feed > ' + streamKeySuffix( streamKey ),
+		} ),
 	},
 	site: {
 		path: ( { streamKey } ) => `/read/sites/${ streamKeySuffix( streamKey ) }/posts`,
 		dateProperty: 'date',
+		analytics: ( { streamKey } ) => ( {
+			path: '/read/feeds/:feed_id',
+			mcKey: 'blog',
+			readerView: 'Reader > Site > ' + streamKeySuffix( streamKey ),
+		} ),
 	},
 	conversations: {
 		path: () => '/read/conversations',
@@ -119,6 +167,7 @@ const streamApis = {
 	a8c: {
 		path: () => '/read/a8c',
 		dateProperty: 'date',
+		analytics: () => ( { path: '/read/a8c', mcKey: 'a8c', readerView: 'Reader > A8C' } ),
 	},
 	'conversations-a8c': {
 		path: () => '/read/conversations',
@@ -202,11 +251,6 @@ export function requestPage( action ) {
 	} );
 }
 
-export function fromApi( data ) {
-	// TODO: is there any transformation to do here?
-	return data;
-}
-
 export function handlePage( action, data ) {
 	const { posts, date_range, meta, next_page } = data;
 	const { streamKey, query, isPoll, gap, streamType } = action.payload;
@@ -257,13 +301,16 @@ export function handleError( action, err ) {
 	return errorNotice( translate( 'Could not fetch the next page of posts' ) );
 }
 
+export function getAnalyticsMetaForStream( streamKey ) {
+	return streamApis[ getStreamType( streamKey ) ].analytics;
+}
+
 export default {
 	[ READER_STREAMS_PAGE_REQUEST ]: [
 		dispatchRequestEx( {
 			fetch: requestPage,
 			onSuccess: handlePage,
 			onError: handleError,
-			fromApi,
 		} ),
 	],
 };
