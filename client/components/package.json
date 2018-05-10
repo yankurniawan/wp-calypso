@@ -1,6 +1,6 @@
 {
   "name": "@automattic/simple-components",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "description": "React components, as used on WordPress.com",
   "scripts": {
     "build": "babel --only ./index.js,./button/,./main/ --out-dir cjs .",
