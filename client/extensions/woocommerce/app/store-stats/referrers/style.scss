@@ -7,6 +7,19 @@
 		max-width: 100%;
 		margin: 0 auto;
 	}
+
+	.referrers__widgets {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		
+		.store-stats-referrer-conv-widget.card,
+		.store-stats-referrer-widget.card {
+			display: inline-block;
+			width: calc( 50% - 6px );
+		}
+	}
 }
 
 .referrers__search-filter {

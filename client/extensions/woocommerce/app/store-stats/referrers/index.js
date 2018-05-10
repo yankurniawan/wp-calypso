@@ -22,6 +22,7 @@ import Main from 'components/main';
 import Module from 'woocommerce/app/store-stats/store-stats-module';
 import SearchCard from 'components/search-card';
 import StoreStatsReferrerWidget from 'woocommerce/app/store-stats/store-stats-referrer-widget';
+import StoreStatsReferrerConvWidget from 'woocommerce/app/store-stats/store-stats-referrer-conv-widget';
 import { sortBySales } from 'woocommerce/app/store-stats/referrers/helpers';
 import PageViewTracker from 'lib/analytics/page-view-tracker';
 import titlecase from 'to-title-case';
@@ -175,21 +176,38 @@ class Referrers extends Component {
 							initialValue={ filter }
 						/>
 					) }
-					<StoreStatsReferrerWidget
-						fetchedData={ filteredSortedData }
-						unit={ unit }
-						siteId={ siteId }
-						query={ query }
-						statType={ STAT_TYPE }
-						endSelectedDate={ endSelectedDate }
-						queryParams={ queryParams }
-						slug={ slug }
-						limit={ LIMIT }
-						pageType="referrers"
-						paginate
-						selectedIndex={ selectedReferrerIndex }
-						selectedReferrer={ selectedReferrer.referrer }
-					/>
+					<div className="referrers__widgets">
+						<StoreStatsReferrerWidget
+							fetchedData={ filteredSortedData }
+							unit={ unit }
+							siteId={ siteId }
+							query={ query }
+							statType={ STAT_TYPE }
+							endSelectedDate={ endSelectedDate }
+							queryParams={ queryParams }
+							slug={ slug }
+							limit={ LIMIT }
+							pageType="referrers"
+							paginate
+							selectedIndex={ selectedReferrerIndex }
+							selectedReferrer={ selectedReferrer.referrer }
+						/>
+						<StoreStatsReferrerConvWidget
+							fetchedData={ filteredSortedData }
+							unit={ unit }
+							siteId={ siteId }
+							query={ query }
+							statType={ STAT_TYPE }
+							endSelectedDate={ endSelectedDate }
+							queryParams={ queryParams }
+							slug={ slug }
+							limit={ LIMIT }
+							pageType="referrers"
+							paginate
+							selectedIndex={ selectedReferrerIndex }
+							selectedReferrer={ selectedReferrer.referrer }
+						/>
+					</div>
 				</Module>
 				<JetpackColophon />
 			</Main>

@@ -1,0 +1,33 @@
+.store-stats-referrer-conv-widget.card  {
+	padding: 0;
+
+	.table {
+		box-shadow: none;
+		margin-bottom: 0;
+
+		.table-row.is-selected,
+		.table-row.is-selected:hover {
+			color: $white;
+			background-color: $blue-wordpress;
+
+			.table-item__cell-title::after {
+				background-image: linear-gradient(to right, rgba(255,255,255,0) 0%, $blue-wordpress 90%);
+			}
+		}
+		.store-stats-referrer-conv-widget__referrer {
+			text-align: left;
+			width: 35%;
+		}
+		.store-stats-referrer-conv-widget__views,
+		.store-stats-referrer-conv-widget__carts,
+		.store-stats-referrer-conv-widget__purchases {
+			text-align: center;
+			width: 15%;
+		}
+		.store-stats-referrer-conv-widget__delta {
+			text-align: center;
+			width: 10%;
+		}
+
+	}
+}
