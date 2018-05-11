@@ -244,7 +244,6 @@ class Referrers extends Component {
 							slug={ slug }
 							limit={ LIMIT }
 							pageType="referrers"
-							paginate
 							selectedIndex={ selectedReferrerIndex }
 							selectedReferrer={ selectedReferrer.referrer }
 						/>

@@ -8,19 +8,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { localize } from 'i18n-calypso';
-import classnames from 'classnames';
 import { find } from 'lodash';
 
 /**
  * Internal dependencies
  */
-import Table from 'woocommerce/components/table';
-import TableRow from 'woocommerce/components/table/table-row';
-import TableItem from 'woocommerce/components/table/table-item';
 import Card from 'components/card';
 import ErrorPanel from 'my-sites/stats/stats-error';
 import { getWidgetPath, formatValue } from 'woocommerce/app/store-stats/utils';
-import Pagination from 'components/pagination';
 import { getStoreReferrersByDate } from 'state/selectors';
 
 class StoreStatsReferrerTitle extends Component {
@@ -34,7 +29,6 @@ class StoreStatsReferrerTitle extends Component {
 		queryParams: PropTypes.object.isRequired,
 		slug: PropTypes.string.isRequired,
 		pageType: PropTypes.string.isRequired,
-		paginate: PropTypes.bool,
 		selectedIndex: PropTypes.number,
 		selectedReferrer: PropTypes.string,
 	};
@@ -76,51 +70,8 @@ class StoreStatsReferrerTitle extends Component {
 			: [ translate( 'No referral activity on this date' ) ];
 	}
 
-	paginate = data => {
-		const { paginate, limit } = this.props;
-		if ( ! paginate ) {
-			return data.slice( 0, limit || data.length );
-		}
-		const { page } = this.state;
-		const start = ( page - 1 ) * limit;
-		const end = start + limit;
-		return data.slice( start, end );
-	};
-
-	onPageClick = pageNumber => {
-		this.setState( {
-			page: pageNumber,
-		} );
-	};
-
-	setPage( { selectedIndex, limit } ) {
-		if ( this.props.paginate ) {
-			this.setState( {
-				page: Math.floor( selectedIndex / limit ) + 1,
-			} );
-		}
-	}
-
-	componentWillMount() {
-		this.setPage( this.props );
-	}
-
-	componentWillReceiveProps( nextProps ) {
-		this.setPage( nextProps );
-	}
-
 	render() {
-		const {
-			data,
-			endSelectedDate,
-			translate,
-			unit,
-			slug,
-			queryParams,
-			limit,
-			paginate,
-			selectedReferrer,
-		} = this.props;
+		const { data, endSelectedDate, translate, selectedReferrer } = this.props;
 		const { page } = this.state;
 		const basePath = '/store/stats/referrers';
 		if ( data.length === 0 ) {
