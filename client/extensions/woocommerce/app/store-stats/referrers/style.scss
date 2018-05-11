@@ -5,7 +5,12 @@
 
 	.referrers__search {
 		max-width: 100%;
-		margin: 0 auto;
+		margin: 0 auto 16px;
+	}
+
+	.store-stats-referrer-title.card {
+		margin: 0;
+		width: calc( 50% - 6px );
 	}
 
 	.referrers__widgets {
@@ -13,10 +18,11 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		
+
 		.store-stats-referrer-conv-widget.card,
+		.store-stats-referrer-title.card,
 		.store-stats-referrer-widget.card {
-			display: inline-block;
+			margin: 0;
 			width: calc( 50% - 6px );
 		}
 	}

@@ -1,0 +1,37 @@
+.store-stats-referrer-title.card  {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+
+	.store-stats-referrer-title__stat {
+		margin-bottom: 12px;
+	}
+	
+	.store-stats-referrer-title__label {
+		color: $gray-dark;
+		display: block;
+		font-size: 11px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+	
+	.store-stats-referrer-title__value {
+		color: $blue-wordpress;
+		display: block;
+		font-size: 16px;
+	}
+
+	.store-stats-referrer-title__referrer {
+		width: 100%;
+
+		.store-stats-referrer-title__value {
+			font-size: 22px;
+		}
+	}
+	.store-stats-referrer-title__sales,
+	.store-stats-referrer-title__purchases,
+	.store-stats-referrer-title__views,
+	.store-stats-referrer-title__carts {
+		width: 50%;
+	}
+}

@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { localize } from 'i18n-calypso';
 import classnames from 'classnames';
+import { find } from 'lodash';
 
 /**
  * Internal dependencies
@@ -22,7 +23,7 @@ import { getWidgetPath, formatValue } from 'woocommerce/app/store-stats/utils';
 import Pagination from 'components/pagination';
 import { getStoreReferrersByDate } from 'state/selectors';
 
-class StoreStatsReferrerConvWidget extends Component {
+class StoreStatsReferrerTitle extends Component {
 	static propTypes = {
 		data: PropTypes.array.isRequired,
 		query: PropTypes.object.isRequired,
@@ -125,91 +126,43 @@ class StoreStatsReferrerConvWidget extends Component {
 		if ( data.length === 0 ) {
 			const messages = this.getEmptyDataMessage( endSelectedDate );
 			return (
-				<Card className="store-stats-referrer-conv-widget stats-module is-showing-error has-no-data">
+				<Card className="store-stats-referrer-title stats-module is-showing-error has-no-data">
 					<ErrorPanel message={ messages.shift() }>{ messages }</ErrorPanel>
 				</Card>
 			);
 		}
-		const paginatedData = this.paginate( data );
-		const header = (
-			<TableRow isHeader>
-				<TableItem isHeader className="store-stats-referrer-conv-widget__referrer">
-					{ translate( 'Source' ) }
-				</TableItem>
-				<TableItem isHeader className="store-stats-referrer-conv-widget__views">
-					{ translate( 'Views' ) }
-				</TableItem>
-				<TableItem isHeader className="store-stats-referrer-conv-widget__delta">
-					{ '->' }
-				</TableItem>
-				<TableItem isHeader className="store-stats-referrer-conv-widget__carts">
-					{ translate( 'Carts' ) }
-				</TableItem>
-				<TableItem isHeader className="store-stats-referrer-conv-widget__delta">
-					{ '->' }
-				</TableItem>
-				<TableItem isHeader className="store-stats-referrer-conv-widget__purchases">
-					{ translate( 'Purchases' ) }
-				</TableItem>
-			</TableRow>
-		);
+		const titleData = find( data, { referrer: selectedReferrer } );
+		console.log( titleData );
 		return (
-			<Card className="store-stats-referrer-conv-widget">
-				<Table className="store-stats-referrer-conv-widget__table" header={ header } compact>
-					{ paginatedData.map( d => {
-						const widgetPath = getWidgetPath(
-							unit,
-							slug,
-							Object.assign( {}, queryParams, { referrer: d.referrer } )
-						);
-						const href = `${ basePath }${ widgetPath }`;
-						return (
-							<TableRow
-								key={ d.referrer }
-								href={ href }
-								className={ classnames( {
-									'is-selected': selectedReferrer === d.referrer,
-								} ) }
-							>
-								<TableItem className="store-stats-referrer-conv-widget__referrer">
-									{ d.referrer }
-								</TableItem>
-								<TableItem className="store-stats-referrer-conv-widget__views">
-									{ formatValue( d.product_views, 'number', 0 ) }
-								</TableItem>
-								<TableItem className="store-stats-referrer-conv-widget__delta">
-									{ `${
-										d.product_views !== 0
-											? Math.abs( Math.round( d.add_to_carts / d.product_views * 100 ) )
-											: '-'
-									}%` }
-								</TableItem>
-								<TableItem className="store-stats-referrer-conv-widget__carts">
-									{ formatValue( d.add_to_carts, 'number', 0 ) }
-								</TableItem>
-								<TableItem className="store-stats-referrer-conv-widget__delta">
-									{ `${
-										d.add_to_carts !== 0
-											? Math.abs( Math.round( d.product_purchases / d.add_to_carts * 100 ) )
-											: '-'
-									}%` }
-								</TableItem>
-								<TableItem className="store-stats-referrer-conv-widget__purchases">
-									{ formatValue( d.product_purchases, 'number', 0 ) }
-								</TableItem>
-							</TableRow>
-						);
-					} ) }
-				</Table>
-				{ paginate && (
-					<Pagination
-						compact
-						page={ page }
-						perPage={ limit }
-						total={ data.length }
-						pageClick={ this.onPageClick }
-					/>
-				) }
+			<Card className="store-stats-referrer-title">
+				<div className="store-stats-referrer-title__stat store-stats-referrer-title__referrer">
+					<span className="store-stats-referrer-title__label">{ translate( 'Referrer' ) }</span>
+					<span className="store-stats-referrer-title__value">{ titleData.referrer }</span>
+				</div>
+				<div className="store-stats-referrer-title__stat store-stats-referrer-title__sales">
+					<span className="store-stats-referrer-title__label">{ translate( 'Gross Sales' ) }</span>
+					<span className="store-stats-referrer-title__value">
+						{ formatValue( titleData.sales, 'currency', titleData.currency ) }
+					</span>
+				</div>
+				<div className="store-stats-referrer-title__stat store-stats-referrer-title__views">
+					<span className="store-stats-referrer-title__label">{ translate( 'Views' ) }</span>
+					<span className="store-stats-referrer-title__value">
+						{ formatValue( titleData.product_views, 'number', 0 ) }
+					</span>
+				</div>
+				<div className="store-stats-referrer-title__stat store-stats-referrer-title__carts">
+					<span className="store-stats-referrer-title__label">{ translate( 'Carts' ) }</span>
+					<span className="store-stats-referrer-title__value">
+						{ formatValue( titleData.add_to_carts, 'number', 0 ) }
+					</span>
+				</div>
+				<div className="store-stats-referrer-title__stat store-stats-referrer-title__purchases">
+					<span className="store-stats-referrer-title__label">{ translate( 'Purchases' ) }</span>
+					<span className="store-stats-referrer-title__value">
+						{ formatValue( titleData.product_purchases, 'number', 0 ) }
+					</span>
+				</div>
 			</Card>
 		);
 	}
@@ -220,4 +173,4 @@ export default connect( ( state, ownProps ) => {
 	return {
 		data: fetchedData || getStoreReferrersByDate( state, ownProps ),
 	};
-} )( localize( StoreStatsReferrerConvWidget ) );
+} )( localize( StoreStatsReferrerTitle ) );
