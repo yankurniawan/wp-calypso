@@ -72,8 +72,6 @@ class StoreStatsReferrerTitle extends Component {
 
 	render() {
 		const { data, endSelectedDate, translate, selectedReferrer } = this.props;
-		const { page } = this.state;
-		const basePath = '/store/stats/referrers';
 		if ( data.length === 0 ) {
 			const messages = this.getEmptyDataMessage( endSelectedDate );
 			return (
@@ -82,40 +80,46 @@ class StoreStatsReferrerTitle extends Component {
 				</Card>
 			);
 		}
-		const titleData = find( data, { referrer: selectedReferrer } );
-		console.log( titleData );
-		return (
-			<Card className="store-stats-referrer-title">
-				<div className="store-stats-referrer-title__stat store-stats-referrer-title__referrer">
-					<span className="store-stats-referrer-title__label">{ translate( 'Referrer' ) }</span>
-					<span className="store-stats-referrer-title__value">{ titleData.referrer }</span>
-				</div>
-				<div className="store-stats-referrer-title__stat store-stats-referrer-title__sales">
-					<span className="store-stats-referrer-title__label">{ translate( 'Gross Sales' ) }</span>
-					<span className="store-stats-referrer-title__value">
-						{ formatValue( titleData.sales, 'currency', titleData.currency ) }
-					</span>
-				</div>
-				<div className="store-stats-referrer-title__stat store-stats-referrer-title__views">
-					<span className="store-stats-referrer-title__label">{ translate( 'Views' ) }</span>
-					<span className="store-stats-referrer-title__value">
-						{ formatValue( titleData.product_views, 'number', 0 ) }
-					</span>
-				</div>
-				<div className="store-stats-referrer-title__stat store-stats-referrer-title__carts">
-					<span className="store-stats-referrer-title__label">{ translate( 'Carts' ) }</span>
-					<span className="store-stats-referrer-title__value">
-						{ formatValue( titleData.add_to_carts, 'number', 0 ) }
-					</span>
-				</div>
-				<div className="store-stats-referrer-title__stat store-stats-referrer-title__purchases">
-					<span className="store-stats-referrer-title__label">{ translate( 'Purchases' ) }</span>
-					<span className="store-stats-referrer-title__value">
-						{ formatValue( titleData.product_purchases, 'number', 0 ) }
-					</span>
-				</div>
-			</Card>
-		);
+		const titleData = find( data, {
+			referrer: selectedReferrer ? selectedReferrer : data[ 0 ].referrer,
+		} );
+		if ( titleData ) {
+			return (
+				<Card className="store-stats-referrer-title">
+					<div className="store-stats-referrer-title__stat store-stats-referrer-title__referrer">
+						<span className="store-stats-referrer-title__label">{ translate( 'Referrer' ) }</span>
+						<span className="store-stats-referrer-title__value">{ titleData.referrer || '' }</span>
+					</div>
+					<div className="store-stats-referrer-title__stat store-stats-referrer-title__sales">
+						<span className="store-stats-referrer-title__label">
+							{ translate( 'Gross Sales' ) }
+						</span>
+						<span className="store-stats-referrer-title__value">
+							{ formatValue( titleData.sales, 'currency', titleData.currency ) }
+						</span>
+					</div>
+					<div className="store-stats-referrer-title__stat store-stats-referrer-title__views">
+						<span className="store-stats-referrer-title__label">{ translate( 'Views' ) }</span>
+						<span className="store-stats-referrer-title__value">
+							{ formatValue( titleData.product_views, 'number', 0 ) }
+						</span>
+					</div>
+					<div className="store-stats-referrer-title__stat store-stats-referrer-title__carts">
+						<span className="store-stats-referrer-title__label">{ translate( 'Carts' ) }</span>
+						<span className="store-stats-referrer-title__value">
+							{ formatValue( titleData.add_to_carts, 'number', 0 ) }
+						</span>
+					</div>
+					<div className="store-stats-referrer-title__stat store-stats-referrer-title__purchases">
+						<span className="store-stats-referrer-title__label">{ translate( 'Purchases' ) }</span>
+						<span className="store-stats-referrer-title__value">
+							{ formatValue( titleData.product_purchases, 'number', 0 ) }
+						</span>
+					</div>
+				</Card>
+			);
+		}
+		return null;
 	}
 }
 

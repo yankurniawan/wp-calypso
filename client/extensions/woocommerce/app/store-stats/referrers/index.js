@@ -72,9 +72,10 @@ class Referrers extends Component {
 
 	getSelectedReferrer = ( filteredSortedData, { queryParams } ) => {
 		let selectedReferrerIndex = null;
-		if ( queryParams.referrer ) {
+		const queryReferrer = queryParams.referrer || 'All';
+		if ( queryReferrer ) {
 			const selectedReferrer = find( filteredSortedData, ( d, idx ) => {
-				if ( queryParams.referrer === d.referrer ) {
+				if ( queryReferrer === d.referrer ) {
 					selectedReferrerIndex = idx;
 					return true;
 				}
@@ -125,7 +126,6 @@ class Referrers extends Component {
 			{ referrer: selectedReferrer.referrer },
 			queryParams
 		);
-
 		return (
 			<Main className="referrers woocommerce" wideLayout>
 				<PageViewTracker
