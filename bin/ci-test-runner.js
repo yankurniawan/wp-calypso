@@ -31,7 +31,7 @@ execSync(
 		'--colors',
 		'--coverage',
 		'--coverageDirectory',
-		'/tmp/artifacts',
+		'./coverage',
 		...process.argv
 			.slice( 3 )
 			.filter( path => /\/test\//.test( path ) )
