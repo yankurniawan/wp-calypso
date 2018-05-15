@@ -19,11 +19,19 @@
 		flex-wrap: wrap;
 		justify-content: space-between;
 
-		.store-stats-referrer-conv-widget.card,
-		.store-stats-referrer-title.card,
 		.store-stats-referrer-widget.card {
 			margin: 0;
-			width: calc( 50% - 6px );
+			width: calc( 67% - 6px );
+		}
+
+		.store-stats-referrer-conv-widget.card {
+			margin: 0;
+			width: 100%;
+		}
+
+		.store-stats-referrer-title.card {
+			margin: 0;
+			width: calc( 33% - 6px );
 		}
 	}
 }

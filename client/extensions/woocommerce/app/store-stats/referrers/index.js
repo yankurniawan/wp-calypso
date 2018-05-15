@@ -63,7 +63,9 @@ class Referrers extends Component {
 	};
 
 	getFilteredData = ( filter, { data } ) => {
-		const filteredData = filter ? data.filter( d => d.referrer.match( filter ) ) : data;
+		const filteredData = filter
+			? data.filter( d => d.referrer.toLowerCase().match( filter.toLowerCase() ) )
+			: data;
 		return {
 			filteredSortedData: sortBySales( filteredData ),
 			unfilteredDataLength: data.length,
@@ -218,21 +220,6 @@ class Referrers extends Component {
 					statType={ STAT_TYPE }
 				>
 					<div className="referrers__widgets">
-						<StoreStatsReferrerWidget
-							fetchedData={ filteredSortedData }
-							unit={ unit }
-							siteId={ siteId }
-							query={ query }
-							statType={ STAT_TYPE }
-							endSelectedDate={ endSelectedDate }
-							queryParams={ queryParams }
-							slug={ slug }
-							limit={ LIMIT }
-							pageType="referrers"
-							paginate
-							selectedIndex={ selectedReferrerIndex }
-							selectedReferrer={ selectedReferrer.referrer }
-						/>
 						<StoreStatsReferrerConvWidget
 							fetchedData={ filteredSortedData }
 							unit={ unit }
