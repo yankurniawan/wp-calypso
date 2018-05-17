@@ -153,10 +153,7 @@ function addStorableDependencies( step, action ) {
 
 function removeUnneededStep( flowName ) {
 	const flowSteps = flows.getFlow( flowName ).steps;
-	signupProgress = filter(
-		signupProgress,
-		( { stepName } ) => flowSteps.indexOf( stepName ) > -1
-	).concat( [] );
+	signupProgress = filter( signupProgress, ( { stepName } ) => flowSteps.indexOf( stepName ) > -1 );
 
 	handleChange();
 }

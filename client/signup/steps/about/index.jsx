@@ -30,7 +30,6 @@ import { DESIGN_TYPE_STORE } from 'signup/constants';
 import PressableStoreStep from '../design-type-with-store/pressable-store';
 import { abtest } from 'lib/abtest';
 import { isUserLoggedIn } from 'state/current-user/selectors';
-import { getRouteHistory } from 'state/ui/action-log/selectors';
 
 //Form components
 import Card from 'components/card';
@@ -598,7 +597,6 @@ export default connect(
 		siteTopic: getSurveyVertical( state ),
 		userExperience: getUserExperience( state ),
 		isLoggedIn: isUserLoggedIn( state ),
-		routeHistory: getRouteHistory( state ),
 	} ),
 	{
 		setSiteTitle,
