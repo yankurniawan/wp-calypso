@@ -4,7 +4,7 @@
  * External dependencies
  */
 
-import { extend, isArray } from 'lodash';
+import { extend, isArray, isEmpty } from 'lodash';
 import update from 'immutability-helper';
 import i18n from 'i18n-calypso';
 import config from 'config';
@@ -226,6 +226,10 @@ function isPaymentMethodEnabled( cart, method ) {
 	);
 }
 
+function areInstallmentsAvailable( cart ) {
+	return ! isEmpty( cart.installments_plans ) && isPaymentMethodEnabled( cart, 'ebanx' );
+}
+
 function getLocationOrigin( l ) {
 	return l.protocol + '//' + l.hostname + ( l.port ? ':' + l.port : '' );
 }
@@ -233,6 +237,7 @@ function getLocationOrigin( l ) {
 export {
 	applyCoupon,
 	applyInstallments,
+	areInstallmentsAvailable,
 	canRemoveFromCart,
 	cartItems,
 	emptyCart,
