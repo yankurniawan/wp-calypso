@@ -2,17 +2,18 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	min-height: 226px;
+	padding: 12px;
 
 	.store-stats-referrer-title__stat {
-		margin-bottom: 12px;
+		margin-bottom: 12px 21px;
 	}
 	
 	.store-stats-referrer-title__label {
 		color: $gray-dark;
 		display: block;
-		font-size: 11px;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
+		font-size: 12px;
+		font-weight: 600;
 	}
 	
 	.store-stats-referrer-title__value {

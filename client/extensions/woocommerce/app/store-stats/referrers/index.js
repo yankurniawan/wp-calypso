@@ -109,7 +109,6 @@ class Referrers extends Component {
 			selectedReferrerIndex,
 		} );
 	}
-
 	render() {
 		const { siteId, query, selectedDate, unit, slug, translate, queryParams } = this.props;
 		const {
@@ -156,27 +155,12 @@ class Referrers extends Component {
 						<SearchCard
 							className={ 'referrers__search-filter' }
 							onSearch={ this.onSearch }
-							placeholder="Filter Referrers"
+							placeholder="Filter Store Referrers"
 							value={ filter }
 							initialValue={ filter }
 						/>
 					) }
 					<div className="referrers__widgets">
-						<StoreStatsReferrerWidget
-							fetchedData={ filteredSortedData }
-							unit={ unit }
-							siteId={ siteId }
-							query={ query }
-							statType={ STAT_TYPE }
-							endSelectedDate={ endSelectedDate }
-							queryParams={ queryParams }
-							slug={ slug }
-							limit={ 5 }
-							pageType="referrers"
-							paginate
-							selectedIndex={ selectedReferrerIndex }
-							selectedReferrer={ selectedReferrer.referrer }
-						/>
 						<StoreStatsReferrerTitle
 							fetchedData={ filteredSortedData }
 							unit={ unit }
@@ -187,6 +171,21 @@ class Referrers extends Component {
 							queryParams={ queryParams }
 							slug={ slug }
 							limit={ LIMIT }
+							pageType="referrers"
+							paginate
+							selectedIndex={ selectedReferrerIndex }
+							selectedReferrer={ selectedReferrer.referrer }
+						/>
+						<StoreStatsReferrerWidget
+							fetchedData={ filteredSortedData }
+							unit={ unit }
+							siteId={ siteId }
+							query={ query }
+							statType={ STAT_TYPE }
+							endSelectedDate={ endSelectedDate }
+							queryParams={ queryParams }
+							slug={ slug }
+							limit={ 5 }
 							pageType="referrers"
 							paginate
 							selectedIndex={ selectedReferrerIndex }
@@ -203,7 +202,7 @@ class Referrers extends Component {
 				>
 					<Chart
 						selectedDate={ endSelectedDate }
-						selectedReferrer={ queryParams.referrer }
+						selectedReferrer={ selectedReferrer.referrer }
 						chartFormat={ chartFormat }
 						unit={ unit }
 						slug={ slug }
@@ -231,6 +230,7 @@ class Referrers extends Component {
 							slug={ slug }
 							limit={ LIMIT }
 							pageType="referrers"
+							paginate
 							selectedIndex={ selectedReferrerIndex }
 							selectedReferrer={ selectedReferrer.referrer }
 						/>

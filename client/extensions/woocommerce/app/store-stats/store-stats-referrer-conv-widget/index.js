@@ -140,13 +140,13 @@ class StoreStatsReferrerConvWidget extends Component {
 					{ translate( 'Views' ) }
 				</TableItem>
 				<TableItem isHeader className="store-stats-referrer-conv-widget__delta">
-					{ '->' }
+					{ '→' }
 				</TableItem>
 				<TableItem isHeader className="store-stats-referrer-conv-widget__carts">
 					{ translate( 'Carts' ) }
 				</TableItem>
 				<TableItem isHeader className="store-stats-referrer-conv-widget__delta">
-					{ '->' }
+					{ '→' }
 				</TableItem>
 				<TableItem isHeader className="store-stats-referrer-conv-widget__purchases">
 					{ translate( 'Purchases' ) }
