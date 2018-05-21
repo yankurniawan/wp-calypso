@@ -366,12 +366,19 @@ export const getCustomsErrors = (
 			} else if ( 'CA' !== destinationCountryCode ) {
 				if ( ! isEmpty( classesAbove2500usd ) ) {
 					errors.itn = translate(
-						'ITN is required for shipping items valued over $2,500 per tariff code'
+						'International Transaction Number is required for shipping items valued over $2,500 per tariff code. ' +
+							'Products with tariff code %(code)s add up to more than $2,500.',
+						{
+							args: { code: classesAbove2500usd.values().next().value }, // Just pick the first code
+						}
 					);
 				} else if ( includes( [ 'IR', 'SY', 'KP', 'CU', 'SD' ], destinationCountryCode ) ) {
-					errors.itn = translate( 'ITN is required for shipments to %(country)s', {
-						args: { country: destinationCountryName },
-					} );
+					errors.itn = translate(
+						'International Transaction Number is required for shipments to %(country)s',
+						{
+							args: { country: destinationCountryName },
+						}
+					);
 				}
 			}
 
