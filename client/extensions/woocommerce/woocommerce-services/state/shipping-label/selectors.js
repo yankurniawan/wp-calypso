@@ -3,7 +3,19 @@
 /**
  * External dependencies
  */
-import { find, get, isEmpty, isEqual, isFinite, mapValues, round, some } from 'lodash';
+import {
+	find,
+	get,
+	includes,
+	isEmpty,
+	isEqual,
+	isFinite,
+	mapValues,
+	omit,
+	pick,
+	round,
+	some,
+} from 'lodash';
 import { translate } from 'i18n-calypso';
 /**
  * Internal dependencies
@@ -19,6 +31,10 @@ import {
 	isLoaded as arePackagesLoaded,
 	isFetchError as arePackagesErrored,
 } from 'woocommerce/woocommerce-services/state/packages/selectors';
+import { isEnabled as flagIsEnabled } from 'config';
+
+// "Countries" from when USPS can ship a package
+export const USPS_COUNTRIES = [ 'US', 'AS', 'PR', 'VI', 'GU', 'MP', 'UM', 'FM', 'MH' ];
 
 export const getShippingLabel = ( state, orderId, siteId = getSelectedSiteId( state ) ) => {
 	return get(
@@ -123,6 +139,29 @@ export const getTotalPriceBreakdown = ( state, orderId, siteId = getSelectedSite
 		: null;
 };
 
+export const getCountriesData = ( state, orderId, siteId = getSelectedSiteId( state ) ) => {
+	if ( ! isLoaded( state, orderId, siteId ) ) {
+		return null;
+	}
+
+	const shippingLabel = getShippingLabel( state, orderId, siteId );
+	const { countriesData } = shippingLabel.storeOptions;
+	if (
+		flagIsEnabled( 'woocommerce/extension-wcservices/international-labels' ) ||
+		! countriesData
+	) {
+		return countriesData;
+	}
+
+	return {
+		...pick( countriesData, [ 'PR', 'VI' ] ),
+		US: {
+			...countriesData.US,
+			states: omit( countriesData.US.states, [ 'AA', 'AE', 'AP' ] ), // Exclude military addresses
+		},
+	};
+};
+
 const getAddressErrors = (
 	{
 		values,
@@ -154,12 +193,10 @@ const getAddressErrors = (
 	} );
 
 	if ( countriesData[ country ] ) {
-		switch ( country ) {
-			case 'US':
-				if ( ! /^\d{5}(?:-\d{4})?$/.test( postcode ) ) {
-					errors.postcode = translate( 'Invalid ZIP code format' );
-				}
-				break;
+		if ( includes( USPS_COUNTRIES, country ) ) {
+			if ( ! /^\d{5}(?:-\d{4})?$/.test( postcode ) ) {
+				errors.postcode = translate( 'Invalid ZIP code format' );
+			}
 		}
 
 		if ( ! isEmpty( countriesData[ country ].states ) && ! state ) {
@@ -330,13 +367,4 @@ export const isLabelDataFetchError = ( state, orderId, siteId = getSelectedSiteI
 		areSettingsErrored( state, siteId ) ||
 		arePackagesErrored( state, siteId )
 	);
-};
-
-export const getCountriesData = ( state, orderId, siteId = getSelectedSiteId( state ) ) => {
-	if ( ! isLoaded( state, orderId, siteId ) ) {
-		return null;
-	}
-
-	const shippingLabel = getShippingLabel( state, orderId, siteId );
-	return shippingLabel.storeOptions.countriesData;
 };
