@@ -44,8 +44,9 @@ const CustomsStep = ( props ) => {
 			toggleStep={ props.toggleStep }
 			isSuccess={ isSubmitted && ! hasNonEmptyLeaves( errors ) }
 			isError={ isSubmitted && hasNonEmptyLeaves( errors ) } >
-			{ Object.keys( packages ).map( ( packageId ) =>
+			{ Object.keys( packages ).map( ( packageId, index ) =>
 				<div className="customs-step__package-container" key={ packageId }>
+					{ index ? <hr /> : null }
 					<p className="customs-step__package-name">{ packageDescriptions[ packageId ] }</p>
 					<PackageRow
 						packageId={ packageId }
