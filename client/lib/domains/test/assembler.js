@@ -49,7 +49,6 @@ describe( 'assembler', () => {
 			isPrimary: false,
 			name: DOMAIN_NAME,
 			manualTransferRequired: undefined,
-			manualWhois: undefined,
 			owner: undefined,
 			privateDomain: undefined,
 			privacyAvailable: undefined,
