@@ -32,9 +32,7 @@ import {
 	isFetchError as arePackagesErrored,
 } from 'woocommerce/woocommerce-services/state/packages/selectors';
 import { isEnabled as flagIsEnabled } from 'config';
-
-// "Countries" from when USPS can ship a package
-export const USPS_COUNTRIES = [ 'US', 'AS', 'PR', 'VI', 'GU', 'MP', 'UM', 'FM', 'MH' ];
+import { USPS_COUNTRIES } from './constants';
 
 export const getShippingLabel = ( state, orderId, siteId = getSelectedSiteId( state ) ) => {
 	return get(

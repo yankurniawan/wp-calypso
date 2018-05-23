@@ -23,8 +23,8 @@ import {
 	getCountriesData,
 	getLabels,
 	isLabelDataFetchError,
-	USPS_COUNTRIES,
 } from 'woocommerce/woocommerce-services/state/shipping-label/selectors';
+import { USPS_COUNTRIES } from 'woocommerce/woocommerce-services/state/shipping-label/constants';
 import {
 	areSettingsGeneralLoaded,
 	getStoreLocation,
