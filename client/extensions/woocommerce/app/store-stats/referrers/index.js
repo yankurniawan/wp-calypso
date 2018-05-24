@@ -83,10 +83,9 @@ class Referrers extends Component {
 
 	getSelectedReferrer = ( filteredSortedData, { queryParams } ) => {
 		let selectedReferrerIndex = null;
-		const queryReferrer = queryParams.referrer || 'All';
-		if ( queryReferrer ) {
+		if ( queryParams.referrer ) {
 			const selectedReferrer = find( filteredSortedData, ( d, idx ) => {
-				if ( queryReferrer === d.referrer ) {
+				if ( queryParams.referrer === d.referrer ) {
 					selectedReferrerIndex = idx;
 					return true;
 				}
