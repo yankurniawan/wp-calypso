@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { translate } from 'i18n-calypso';
 
 /**
  * Internal dependencies
@@ -56,7 +57,7 @@ class Chart extends Component {
 		const { data, selectedDate, unit, slug, selectedReferrer } = this.props;
 		const chartTitle = (
 			<div className="chart__title">
-				<span className="chart__title-label">Selected Referrer:</span>
+				<span className="chart__title-label">{ `${ translate( 'Selected Referrer' ) }:` }</span>
 				<span className="chart__title-referrer">{ selectedReferrer || 'All' }</span>
 			</div>
 		);
