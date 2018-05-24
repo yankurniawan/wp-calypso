@@ -54,16 +54,24 @@ class Chart extends Component {
 
 	render() {
 		const { data, selectedDate, unit, slug, selectedReferrer } = this.props;
+		const chartTitle = (
+			<div className="chart__title">
+				<span className="chart__title-label">Selected Referrer:</span>
+				<span className="chart__title-referrer">{ selectedReferrer || 'All' }</span>
+			</div>
+		);
+
 		return (
 			<StoreStatsChart
-				data={ data }
-				selectedDate={ selectedDate }
-				unit={ unit }
-				renderTabs={ this.renderTabs }
-				slug={ slug }
 				basePath={ '/store/stats/referrers' }
-				urlQueryParam={ { referrer: selectedReferrer } }
+				chartTitle={ chartTitle }
+				data={ data }
+				renderTabs={ this.renderTabs }
+				selectedDate={ selectedDate }
+				slug={ slug }
 				tabs={ tabs }
+				urlQueryParam={ { referrer: selectedReferrer } }
+				unit={ unit }
 			/>
 		);
 	}

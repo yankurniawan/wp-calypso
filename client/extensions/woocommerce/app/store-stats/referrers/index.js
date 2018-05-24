@@ -9,19 +9,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { find } from 'lodash';
 import { localize } from 'i18n-calypso';
+import page from 'page';
 
 /**
  * Internal dependencies
  */
 import QuerySiteStats from 'components/data/query-site-stats';
 import { getSelectedSiteId, getSelectedSiteSlug } from 'state/ui/selectors';
-import { getEndPeriod } from 'woocommerce/app/store-stats/utils';
+import { getEndPeriod, getWidgetPath } from 'woocommerce/app/store-stats/utils';
 import StoreStatsPeriodNav from 'woocommerce/app/store-stats/store-stats-period-nav';
 import JetpackColophon from 'components/jetpack-colophon';
 import Main from 'components/main';
 import Module from 'woocommerce/app/store-stats/store-stats-module';
 import SearchCard from 'components/search-card';
-import StoreStatsReferrerTitle from 'woocommerce/app/store-stats/store-stats-referrer-title';
 import StoreStatsReferrerWidget from 'woocommerce/app/store-stats/store-stats-referrer-widget';
 import StoreStatsReferrerConvWidget from 'woocommerce/app/store-stats/store-stats-referrer-conv-widget';
 import { sortBySales } from 'woocommerce/app/store-stats/referrers/helpers';
@@ -59,6 +59,15 @@ class Referrers extends Component {
 	}
 
 	onSearch = str => {
+		if ( str === '' ) {
+			const { unit, slug } = this.props;
+			const basePath = '/store/stats/referrers';
+			const { queryParams: { referrer, ...queryParams } } = this.props; // eslint-disable-line no-unused-vars
+			const widgetPath = getWidgetPath( unit, slug, queryParams );
+			this.state.filter = '';
+			this.state.selectedReferrer = {};
+			page( `${ basePath }${ widgetPath }` );
+		}
 		this.setData( this.props, str );
 	};
 
@@ -111,15 +120,8 @@ class Referrers extends Component {
 	}
 	render() {
 		const { siteId, query, selectedDate, unit, slug, translate, queryParams } = this.props;
-		const {
-			filter,
-			filteredSortedData,
-			unfilteredDataLength,
-			selectedReferrer,
-			selectedReferrerIndex,
-		} = this.state;
+		const { filter, filteredSortedData, selectedReferrer, selectedReferrerIndex } = this.state;
 		const endSelectedDate = getEndPeriod( selectedDate, unit );
-		const showSearch = unfilteredDataLength > LIMIT;
 		const title = `${ translate( 'Store Referrers' ) }: ${ queryParams.referrer ||
 			translate( 'All' ) }`;
 		const chartFormat = UNITS[ unit ].chartFormat;
@@ -127,6 +129,7 @@ class Referrers extends Component {
 			{ referrer: selectedReferrer.referrer },
 			queryParams
 		);
+		const selectOrFilter = selectedReferrer ? selectedReferrer.referrer : filter;
 		return (
 			<Main className="referrers woocommerce" wideLayout>
 				<PageViewTracker
@@ -151,31 +154,14 @@ class Referrers extends Component {
 					query={ query }
 					statType={ STAT_TYPE }
 				>
-					{ showSearch && (
-						<SearchCard
-							className={ 'referrers__search-filter' }
-							onSearch={ this.onSearch }
-							placeholder="Filter Store Referrers"
-							value={ filter }
-							initialValue={ filter }
-						/>
-					) }
+					<SearchCard
+						className={ 'referrers__search-filter' }
+						onSearch={ this.onSearch }
+						placeholder="Filter Store Referrers"
+						value={ selectOrFilter }
+						initialValue={ selectOrFilter }
+					/>
 					<div className="referrers__widgets">
-						<StoreStatsReferrerTitle
-							fetchedData={ filteredSortedData }
-							unit={ unit }
-							siteId={ siteId }
-							query={ query }
-							statType={ STAT_TYPE }
-							endSelectedDate={ endSelectedDate }
-							queryParams={ queryParams }
-							slug={ slug }
-							limit={ LIMIT }
-							pageType="referrers"
-							paginate
-							selectedIndex={ selectedReferrerIndex }
-							selectedReferrer={ selectedReferrer.referrer }
-						/>
 						<StoreStatsReferrerWidget
 							fetchedData={ filteredSortedData }
 							unit={ unit }
