@@ -193,6 +193,7 @@ class PodcastCoverImageSetting extends PureComponent {
 				compact
 				onClick={ this.showModal }
 				onMouseEnter={ this.preloadModal }
+				type="submit"
 			>
 				{ isCoverSet ? translate( 'Change' ) : translate( 'Add' ) }
 			</Button>
@@ -217,7 +218,7 @@ class PodcastCoverImageSetting extends PureComponent {
 				className={ classNames }
 				onClick={ this.showModal }
 				onMouseEnter={ this.preloadModal }
-				type="button"
+				type="submit"
 			>
 				{ imageSrc ? (
 					<Image className="podcast-cover-image-setting__img" src={ imageSrc } alt="" />
