@@ -256,33 +256,31 @@ class PodcastingDetails extends Component {
 	}
 
 	onCategorySelected = category => {
-		this.setFieldForcingString( 'podcasting_category_id' )( category.ID );
+		this.setFieldForcingString( 'podcasting_category_id', category.ID );
 	};
 
 	onCategoryCleared = () => {
-		this.setFieldForcingString( 'podcasting_category_id' )( 0 );
+		this.setFieldForcingString( 'podcasting_category_id', 0 );
 	};
 
 	onCoverImageRemoved = () => {
-		this.setFieldForcingString( 'podcasting_image_id' )( 0 );
+		this.setFieldForcingString( 'podcasting_image_id', 0, true );
 		// When we remove the image, we want to clear the legacy value as well.
-		this.setFieldForcingString( 'podcasting_image' )( '' );
+		this.setFieldForcingString( 'podcasting_image', '', true );
 	};
 
 	onCoverImageSelected = ( coverId, coverUrl ) => {
-		this.setFieldForcingString( 'podcasting_image_id' )( coverId );
-		this.setFieldForcingString( 'podcasting_image' )( coverUrl );
+		this.setFieldForcingString( 'podcasting_image_id', coverId, true );
+		this.setFieldForcingString( 'podcasting_image', coverUrl, true );
 	};
 
-	setFieldForcingString = field => value => {
-		const { onChangeField } = this.props;
+	setFieldForcingString = ( field, value, autosave = false ) => {
+		const { setFieldValue } = this.props;
 
 		// Always send and save IDs as strings because this is what
 		// the settings form wrapper expects (otherwise the settings form will
 		// be marked dirty again immediately after saving).
-		const event = { target: { value: String( value ) } };
-
-		onChangeField( field )( event );
+		setFieldValue( field, String( value ), autosave );
 	};
 }
 
