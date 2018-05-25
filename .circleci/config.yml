@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    parallelism: 4
+    parallelism: 6
     working_directory: ~/wp-calypso
     docker:
       - image: circleci/node:8.11-browsers
@@ -15,7 +15,15 @@ jobs:
           name: Install NPM
           command: 'sudo npm install -g npm@6.0.1'
 
+      - restore_cache:
+          key: v1-20180524-git
+
       - checkout
+
+      - save_cache:
+          key: v1-20180524-git
+          paths:
+            - ".git"
 
       - run:
           name: Create Directories for Results and Artifacts
@@ -35,7 +43,7 @@ jobs:
 
       - run:
           name: Update the lockfile
-          command: npx greenkeeper-lockfile-update
+          command: CI_PULL_REQUEST='' npx greenkeeper-lockfile-update
 
       - run: NODE_ENV=test npm run build-server
 
